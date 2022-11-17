@@ -1,8 +1,15 @@
 import React from 'react'
+import { useState, useEffect } from "react";
+import BooksList from './BooksList'
 
-function Home() {
+
+function Home({ books }) {
+
+    
     return(
-        <h1>Home</h1>
+        <div>
+            <BooksList books={books}/>
+        </div>
     )
 }
 
