@@ -8,6 +8,6 @@ Rails.application.routes.draw do
   # constraints: ->(req) { !req.xhr? && req.format.html? }
 
   resources :books
-  resources :reviews, only: [:index, :create, :destroy]
+  resources :reviews, only: [:index, :show, :create, :destroy]
   resources :users, only: [:index, :show, :create, :show]
 end

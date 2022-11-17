@@ -1,6 +1,6 @@
 class BooksController < ApplicationController
-    # skip_before_action :authenticate_user, only: [:index, :show]
-    # before_action :is_authorized?, only: [:create, :update, :destroy]
+    skip_before_action :authenticate_user, only: [:index, :show]
+    before_action :is_authorized?, only: [:create, :update, :destroy]
 
     def index
         books = Book.all

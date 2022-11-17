@@ -1,8 +1,8 @@
 class ReviewsController < ApplicationController
-    # before_action :find_review, only: [:show]
-    # skip_before_action :authenticate_user
-    # before_action :is_authorized?, only: [:create]
-    # before_action :is_owner?, only: [:update, :destroy]
+    before_action :find_review, only: [:show]
+    skip_before_action :authenticate_user
+    before_action :is_authorized?, only: [:create]
+    before_action :is_owner?, only: [:update, :destroy]
 
     def index
         render json: Review.all
