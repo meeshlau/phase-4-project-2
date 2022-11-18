@@ -23,7 +23,7 @@ function NaviBar({ currentUser, updateUser }) {
               <Nav.Link href="/home">Home</Nav.Link>
               <Nav.Link href="/users/new">Sign Up</Nav.Link>
               <Nav.Link href="/login">Login</Nav.Link>
-                {currentUser ? <Button variant='light' onClick={handleLogOut}>Log Out</Button> : null }
+                {currentUser ? <Button variant='light' className='me-2' onClick={handleLogOut}>Log Out</Button> : null }
             </Nav>
           </Navbar.Collapse>
         </Container>

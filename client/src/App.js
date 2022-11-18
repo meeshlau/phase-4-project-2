@@ -8,6 +8,7 @@ import SignUpForm from './SignUpForm'
 import LoginForm from './LoginForm'
 import BooksList from './BooksList'
 import NaviBar from './NaviBar'
+import Container from 'react-bootstrap/Container';
 
 function App() {
   const [books, setBooks] = useState([])
@@ -34,7 +35,10 @@ function App() {
 
   return (
     <>
+    <Container>
     <NaviBar currentUser={currentUser} updateUser={updateUser}/>
+    {/* <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqmM7wDJ4cVPhbm3ggdlB3q-bXIFKOz_bfAg&usqp=CAU'className="center"></img> */}
+    </Container>
     <BrowserRouter>
       <Switch>
           <Route path="/users/new">
@@ -54,6 +58,7 @@ function App() {
           </Route>
       </Switch>
       </BrowserRouter>
+
       </>
   )
 }

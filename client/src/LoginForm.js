@@ -2,12 +2,15 @@ import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
+import { useHistory } from 'react-router-dom'
 
 function LoginForm({ updateUser }) {
     const [formData, setFormData] = useState({
         username:'',
         password:''
     })
+
+    const history = useHistory()
 
     const {username, password} = formData
     
@@ -27,6 +30,11 @@ function LoginForm({ updateUser }) {
         .then(user => {
             setFormData(user)
             updateUser(user)
+            history.push('/books')
+        })
+        setFormData({
+            username: "",
+            password: ""
         })
     }
 
