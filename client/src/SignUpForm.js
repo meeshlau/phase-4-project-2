@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Container from 'react-bootstrap/Container';
 
-function SignUpForm(){
+function SignUpForm({ updateUser }){
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -25,7 +26,10 @@ function SignUpForm(){
             body: JSON.stringify(user)
         })
         .then(res => res.json())
-        .then(user => setFormData(user))
+        .then(user => {
+            setFormData(user)
+            updateUser(user)
+        })
     }
         
     const handleChange = (e) => {
@@ -34,8 +38,12 @@ function SignUpForm(){
     }
 
     return (
+        <div>
+        <Container>
+        <h3>Sign up for access to Keiki Books</h3>
+
         <Form onSubmit={onSubmit}>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Group className="mb-3" controlId="signUpFormEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control type="email" name='email' value={email} onChange={handleChange} placeholder="Enter email" />
           <Form.Text className="text-muted">
@@ -43,20 +51,22 @@ function SignUpForm(){
           </Form.Text>
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formBasicUsername">
+        <Form.Group className="mb-3" controlId="signUpFormUsername">
           <Form.Label>Username</Form.Label>
           <Form.Control type="username" name='username' value={username} onChange={handleChange} placeholder="Enter desired username" />
         </Form.Group>
   
-        <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Group className="mb-3" controlId="signUpFormPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control type="password" name='password' value={password} onChange={handleChange} placeholder="Password" />
         </Form.Group>
 
         <Button variant="primary" type="submit">
-          Submit
+          Sign Up!
         </Button>
         </Form>
+        </Container>
+        </div>
     )
 }
 

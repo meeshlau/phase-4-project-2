@@ -12,6 +12,7 @@ import NaviBar from './NaviBar'
 function App() {
   const [books, setBooks] = useState([])
   const [errors, setErrors] = useState(false)
+  const [currentUser, setCurrentUser] = useState('')
 
   useEffect(() => {
     fetchBooks()
@@ -27,13 +28,17 @@ function App() {
       }
     })}
 
+    const updateUser = (user) => setCurrentUser(user)
+
+    console.log(currentUser)
+
   return (
     <>
-    <NaviBar />
+    <NaviBar currentUser={currentUser} updateUser={updateUser}/>
     <BrowserRouter>
       <Switch>
           <Route path="/users/new">
-            < SignUpForm />
+            <SignUpForm updateUser={updateUser}/>
           </Route>
   
           <Route path="/books">
@@ -41,11 +46,11 @@ function App() {
           </Route>
 
           <Route path="/login">
-            <LoginForm />
+            <LoginForm  updateUser={updateUser}/>
           </Route>
 
           <Route path="/">
-            <Home books={books}/>
+            <Home books={books} updateUser={updateUser}/>
           </Route>
       </Switch>
       </BrowserRouter>

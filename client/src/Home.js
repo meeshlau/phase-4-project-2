@@ -1,14 +1,17 @@
 import React from 'react'
 import { useState, useEffect } from "react";
-import BooksList from './BooksList'
+import SignUpForm from './SignUpForm'
+import LoginForm from './LoginForm'
+import Container from 'react-bootstrap/Container';
 
-
-function Home({ books }) {
+function Home({ currentUser, updateUser }) {
 
     
     return(
         <div>
-            <BooksList books={books}/>
+            <Container>
+                {currentUser ? <LoginForm updateUser={updateUser}/> : <SignUpForm updateUser={updateUser}/>}
+            </Container>
         </div>
     )
 }

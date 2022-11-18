@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 
-function LoginForm() {
+function LoginForm({ updateUser }) {
     const [formData, setFormData] = useState({
         username:'',
         password:''
@@ -23,7 +24,10 @@ function LoginForm() {
             body: JSON.stringify(user)
         })
         .then(res => res.json())
-        .then(user => setFormData(user))
+        .then(user => {
+            setFormData(user)
+            updateUser(user)
+        })
     }
 
     const handleChange =(e) => {
@@ -31,15 +35,20 @@ function LoginForm() {
         setFormData({ ...formData, [name]: value })
     }
 
+
+
     return(
+        <div>
+            <Container>
+            <h2>Login:</h2>
         <Form onSubmit={onSubmit}>
 
-        <Form.Group className="mb-3" controlId="formBasicUsername">
+        <Form.Group className="mb-3" controlId="loginFormUsername">
           <Form.Label>Username</Form.Label>
-          <Form.Control type="username" name='username' value={username} onChange={handleChange} placeholder="Enter desired username" />
+          <Form.Control type="username" name='username' value={username} onChange={handleChange} placeholder="Username" />
         </Form.Group>
   
-        <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Group className="mb-3" controlId="loginFormPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control type="password" name='password' value={password} onChange={handleChange} placeholder="Password" />
         </Form.Group>
@@ -48,6 +57,8 @@ function LoginForm() {
           Log in!
         </Button>
         </Form>
+        </Container>
+        </div>
     )
 
 }
