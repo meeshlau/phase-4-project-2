@@ -48,6 +48,14 @@ function App() {
       })
     }
 
+    const handleLogOut = () => {
+      setCurrentUser(null)
+    }
+
+    const handleLogin = (user) => {
+      setCurrentUser(user)
+    }
+
     const updateUser = (user) => setCurrentUser(user)
 
     console.log(currentUser)
@@ -55,7 +63,7 @@ function App() {
   return (
     <>
     <Container>
-    <NaviBar currentUser={currentUser} updateUser={updateUser}/>
+    <NaviBar currentUser={currentUser} updateUser={updateUser} onLogOut={handleLogOut} handleLogin={handleLogin}/>
     {/* <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqmM7wDJ4cVPhbm3ggdlB3q-bXIFKOz_bfAg&usqp=CAU'className="center"></img> */}
     </Container>
     <Container>
@@ -77,7 +85,7 @@ function App() {
           </Route>
 
           <Route path="/">
-            <Home books={books} currentUser={currentUser} updateUser={updateUser} reviews={reviews} />
+            <Home books={books} currentUser={currentUser} updateUser={updateUser} reviews={reviews} setCurrentUser={setCurrentUser}/>
           </Route>
 
           <Route path="/reviews/new">

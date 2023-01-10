@@ -8,14 +8,12 @@ import { useHistory } from 'react-router-dom'
 import BookForm from './BookForm'
 
 
-function NaviBar({ currentUser, updateUser }) {
-    const [menu, setMenu] = useState(false)
+function NaviBar({ currentUser,  onLogOut }) {
 
-    const handleLogOut = () => {
-        fetch(`/logout`, {
-            method: 'DELETE'
-        })
-        updateUser(false)
+    function handleLogOut() {
+        fetch('/logout', {
+            method: "DELETE",
+        }).then(() => onLogOut())
     }
 
 
@@ -29,12 +27,13 @@ function NaviBar({ currentUser, updateUser }) {
               <Nav.Link href="/home">Home</Nav.Link>
               
               {currentUser ? <Nav.Link href="/books/new">Add a Book</Nav.Link> : null }
-               {currentUser ?  null : <Nav.Link href="/users/new">Sign Up</Nav.Link> } 
+                {currentUser ?  null : <Nav.Link href="/users/new">Sign Up</Nav.Link> } 
 
             </Nav>
             
-            {currentUser ? <Nav.Link href="/home" onClick={handleLogOut}>Logout</Nav.Link>: <Nav.Link href="/login">Login</Nav.Link> }
+            {currentUser ? null : <Nav.Link href="/login">Login</Nav.Link> }
           </Navbar.Collapse>
+          {currentUser ? <Button onClick={handleLogOut}>Logout</Button> : null }
         </Container>
       </Navbar>
     )

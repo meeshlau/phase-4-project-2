@@ -25,7 +25,6 @@ function LoginForm({ updateUser }) {
         fetch(`/login`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            credentials: "include",
             body: JSON.stringify(user)
         })
         .then(res => res.json())
