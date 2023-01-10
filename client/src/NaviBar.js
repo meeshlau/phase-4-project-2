@@ -3,6 +3,10 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
+import ReviewForm from './ReviewForm'
+import { useHistory } from 'react-router-dom'
+import BookForm from './BookForm'
+
 
 function NaviBar({ currentUser, updateUser }) {
     const [menu, setMenu] = useState(false)
@@ -13,6 +17,8 @@ function NaviBar({ currentUser, updateUser }) {
         })
         updateUser(false)
     }
+
+
     return(
         <Navbar bg="light" expand="lg">
         <Container>
@@ -21,10 +27,13 @@ function NaviBar({ currentUser, updateUser }) {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link href="/home">Home</Nav.Link>
-              <Nav.Link href="/users/new">Sign Up</Nav.Link>
-              <Nav.Link href="/login">Login</Nav.Link>
-                {currentUser ? <Button variant='light' className='me-2' onClick={handleLogOut}>Log Out</Button> : null }
+              
+              {currentUser ? <Nav.Link href="/books/new">Add a Book</Nav.Link> : null }
+               {currentUser ?  null : <Nav.Link href="/users/new">Sign Up</Nav.Link> } 
+
             </Nav>
+            
+            {currentUser ? <Nav.Link href="/home" onClick={handleLogOut}>Logout</Nav.Link>: <Nav.Link href="/login">Login</Nav.Link> }
           </Navbar.Collapse>
         </Container>
       </Navbar>

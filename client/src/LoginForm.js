@@ -13,6 +13,7 @@ function LoginForm({ updateUser }) {
     const history = useHistory()
 
     const {username, password} = formData
+
     
     function onSubmit(e){
         e.preventDefault()
@@ -24,6 +25,7 @@ function LoginForm({ updateUser }) {
         fetch(`/login`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
+            credentials: "include",
             body: JSON.stringify(user)
         })
         .then(res => res.json())
@@ -42,8 +44,6 @@ function LoginForm({ updateUser }) {
         const { name, value } = e.target
         setFormData({ ...formData, [name]: value })
     }
-
-
 
     return(
         <div>

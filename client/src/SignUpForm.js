@@ -49,7 +49,7 @@ function SignUpForm({ updateUser }){
     return (
         <div>
         <Container>
-        <h3>Sign up for access to Keiki Books</h3>
+        <h5>Sign up to add a book that's missing from our library, or to add your own review to Keiki Books</h5>
 
         <Form onSubmit={onSubmit}>
         <Form.Group className="mb-3" controlId="signUpFormEmail">

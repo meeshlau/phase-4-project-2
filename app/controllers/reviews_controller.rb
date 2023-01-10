@@ -40,11 +40,11 @@ class ReviewsController < ApplicationController
     end
 
     def find_review
-        @review = Reveiw.find(params[:id])
+        @review = Review.find(params[:id])
     end
 
     def is_owner?
         permitted = @review.user_id == current_user.id
-        render json: { errors: {User: "is not authorized" }, status: :forbidden unless permitted}
+        render json: { errors: {User: "is not authorized" }, status: :forbidden}
     end
 end
