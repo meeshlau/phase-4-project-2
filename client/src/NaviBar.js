@@ -26,14 +26,14 @@ function NaviBar({ currentUser,  onLogOut }) {
             <Nav className="me-auto">
               <Nav.Link href="/home">Home</Nav.Link>
               
-              {currentUser ? <Nav.Link href="/books/new">Add a Book</Nav.Link> : null }
+              {currentUser  ? <Nav.Link href="/books/new">Add a Book</Nav.Link> : null }
                 {currentUser ?  null : <Nav.Link href="/users/new">Sign Up</Nav.Link> } 
 
             </Nav>
             
             {currentUser ? null : <Nav.Link href="/login">Login</Nav.Link> }
           </Navbar.Collapse>
-          {currentUser ? <Button onClick={handleLogOut}>Logout</Button> : null }
+            {currentUser ? <Button onClick={handleLogOut}>Logout</Button> : null }
         </Container>
       </Navbar>
     )

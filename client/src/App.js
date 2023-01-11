@@ -1,7 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react'
-import { useState, useEffect } from "react";
+import { useState, useEffect, useHistory } from "react";
 import Home from './Home'
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import SignUpForm from './SignUpForm'
@@ -17,15 +17,19 @@ function App() {
   const [errors, setErrors] = useState(false)
   const [currentUser, setCurrentUser] = useState('')
   const [reviews, setReviews] = useState([])
+  const [user, setUser] = useState(null)
+
+
 
   useEffect(() => {
     fetch("/auth").then((response) => {
       if (response.ok) {
-        response.json().then((currentUser) => setCurrentUser(currentUser))
+        response.json().then((user) => setCurrentUser(user))
       }
     })
     fetchBooks()
   },[])
+
 
   const fetchBooks = () => {
     fetch('/books')

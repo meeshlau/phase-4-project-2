@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   get '/logged_in', to: 'sessions#is_logged_in?'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
-  get "/auth", to: "sessions#index"
+  get "/auth", to: "users#show"
 
   # get '*path',
   # to: 'fallback#index',

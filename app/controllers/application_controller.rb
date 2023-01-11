@@ -15,7 +15,6 @@ class ApplicationController < ActionController::API
   end
 
 
-
   private
 
   def authenticate_user # checking to see if a user is logged in

@@ -31,13 +31,17 @@ function LoginForm({ updateUser }) {
         .then(user => {
             setFormData(user)
             updateUser(user)
-            history.push('/books')
-        })
+            console.log(user)
+            if (user.errors) {
+                history.push('/login')
+            } else {
+                history.push('/books')
+            }
         setFormData({
             username: "",
             password: ""
         })
-    }
+    })}
 
     const handleChange =(e) => {
         const { name, value } = e.target
