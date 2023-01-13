@@ -9,7 +9,11 @@ class ReviewsController < ApplicationController
     end
 
     def show
-        render json: @review, status: :ok
+        selected_book = Book.find(params[:id])
+
+        book_reviews = Review.find_by(book_id: params[:book_id])
+        render json: book_reviews, status: :ok
+        
     end
 
     def create

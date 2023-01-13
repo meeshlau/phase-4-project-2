@@ -1,9 +1,9 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react'
-import { useState, useEffect, useHistory } from "react";
+import { useState, useEffect } from "react";
 import Home from './Home'
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import SignUpForm from './SignUpForm'
 import LoginForm from './LoginForm'
 import BooksList from './BooksList'
@@ -11,15 +11,14 @@ import NaviBar from './NaviBar'
 import Container from 'react-bootstrap/Container';
 import ReviewForm from './ReviewForm'
 import BookForm from './BookForm'
+import ReviewList from './ReviewList'
 
 function App() {
   const [books, setBooks] = useState([])
   const [errors, setErrors] = useState(false)
   const [currentUser, setCurrentUser] = useState('')
   const [reviews, setReviews] = useState([])
-  const [user, setUser] = useState(null)
-
-
+  const [users, setUsers] = useState([])
 
   useEffect(() => {
     fetch("/auth").then((response) => {
@@ -28,6 +27,8 @@ function App() {
       }
     })
     fetchBooks()
+    fetchReviews()
+    fetchUsers()
   },[])
 
 
@@ -52,6 +53,17 @@ function App() {
       })
     }
 
+    const fetchUsers = () => {
+      fetch('/users')
+      .then(res => {
+        if(res.ok){
+          res.json().then(setUsers)
+        } else {
+          res.json().then(data => setErrors(data.error))
+        }
+      })
+    }
+
     const handleLogOut = () => {
       setCurrentUser(null)
     }
@@ -61,8 +73,6 @@ function App() {
     }
 
     const updateUser = (user) => setCurrentUser(user)
-
-    console.log(currentUser)
 
   return (
     <>
@@ -74,17 +84,28 @@ function App() {
     <h3>Welcome to Keiki Books!</h3>
     Browse through children's books, and add your review.<br></br><br></br>
     </Container>
-    <BrowserRouter>
       <Switch>
-          <Route path="/users/new">
+          <Route exact path="/users/new">
             <SignUpForm updateUser={updateUser}/>
           </Route>
-  
-          <Route path="/books">
-            <BooksList books={books} />
+
+          <Route exact path="/books">
+            <BooksList books={books}/>
           </Route>
 
-          <Route path="/login">
+          <Route exact path="/books/new">
+            <BookForm />
+          </Route>
+
+          <Route exact path="/books/:id/reviews/new">
+            <ReviewForm reviews={reviews}/>
+          </Route>
+
+          <Route path="/books/:id/reviews">
+            <ReviewList reviews={reviews} users={users} books={books}/>
+          </Route>
+
+          <Route exact path="/login">
             <LoginForm  updateUser={updateUser}/>
           </Route>
 
@@ -92,16 +113,8 @@ function App() {
             <Home books={books} currentUser={currentUser} updateUser={updateUser} reviews={reviews} setCurrentUser={setCurrentUser}/>
           </Route>
 
-          <Route path="/reviews/new">
-            <ReviewForm />
-          </Route>
-
-          <Route path="/books/new">
-            <BookForm />
-          </Route>
 
       </Switch>
-      </BrowserRouter>
 
       </>
   )

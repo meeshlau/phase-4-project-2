@@ -7,7 +7,7 @@ import BooksList from './BooksList'
 import BookForm from './BookForm'
 
 
-function Home({ currentUser, updateUser, books, reviews }) {
+function Home({ books, reviews }) {
 
     
     return(
@@ -15,7 +15,6 @@ function Home({ currentUser, updateUser, books, reviews }) {
             <Container>
                 
                 <BooksList books={books} reviews={reviews} />
-                
             </Container>
         </div>
     )

@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
   get "/auth", to: "users#show"
+  post '/books/new', to: "books#create"
+  post '/books/:book_id/reviews/new', to: "reviews#create"
+  get '/books/:book_id/reviews', to: "reviews#show"
 
   # get '*path',
   # to: 'fallback#index',
