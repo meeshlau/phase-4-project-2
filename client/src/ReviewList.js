@@ -1,23 +1,28 @@
 import React from 'react'
+import Container from 'react-bootstrap/Container';
+import Alert from 'react-bootstrap/Alert';
 
-function ReviewList({ reviews, users, books, selectedBook }) {
+function ReviewList({ books, selectedBook, reviews, users }) {
+    // console.log(users)
+    console.log(users)
+    console.log(selectedBook)
+
     return (
+        <Container>
         <div>
-            {/* {reviews.map(review =>
-            <h3>{review.review_comment}</h3> 
-            )} */}
-            {books.map((book, index) => (
-                <div key={index}>
-                    <h2>{book.title}</h2>
+            {selectedBook.map(book => 
+                <Alert key={book.id}>{book.reviews.map(rev =>
+                    <div>
+                    <Alert.Heading>{rev.review_comment}</Alert.Heading>
+                    <p>{rev.user_id}</p>
+                    </div>
 
-                    {book.reviews.map((review, index) => (
-                        <div key={index}>
-                            <h4>{review.review_comment}</h4>
-                        </div>
-                    ))}
-                </div>
-            ))}
+                )}
+                </Alert>
+
+            )}
         </div>
+        </Container>
     )
 }
 

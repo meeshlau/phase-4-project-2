@@ -1,20 +1,18 @@
 import React from 'react'
-// import { useState, useEffect } from "react";
 // import SignUpForm from './SignUpForm'
 // import LoginForm from './LoginForm'
 import Container from 'react-bootstrap/Container';
 import BooksList from './BooksList'
-import BookForm from './BookForm'
 
 
-function Home({ books, reviews }) {
+function Home({ books, reviews, selectedBook, setSelectedBook, users }) {
+
 
     
     return(
         <div>
             <Container>
-                
-                <BooksList books={books} reviews={reviews} />
+                <BooksList books={books} reviews={reviews} selectedBook={selectedBook} setSelectedBook={setSelectedBook} />
             </Container>
         </div>
     )

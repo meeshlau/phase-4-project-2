@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react'
 import { useState, useEffect } from "react";
 import Home from './Home'
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
 import SignUpForm from './SignUpForm'
 import LoginForm from './LoginForm'
 import BooksList from './BooksList'
@@ -19,6 +19,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState('')
   const [reviews, setReviews] = useState([])
   const [users, setUsers] = useState([])
+  const [selectedBook, setSelectedBook] = useState([])
 
   useEffect(() => {
     fetch("/auth").then((response) => {
@@ -42,16 +43,17 @@ function App() {
       }
     })}
 
-    const fetchReviews = () => {
-      fetch('/reviews')
-      .then(res => {
-        if(res.ok){
-          res.json().then(setReviews)
-        } else {
-          res.json().then(data => setErrors(data.error))
-        }
-      })
-    }
+  const fetchReviews = () => {
+    fetch('/reviews')
+    .then(res => {
+      if(res.ok){
+        res.json().then(setReviews)
+      } else {
+        res.json().then(data => setErrors(data.error))
+      }
+    })
+  }
+
 
     const fetchUsers = () => {
       fetch('/users')
@@ -74,6 +76,10 @@ function App() {
 
     const updateUser = (user) => setCurrentUser(user)
 
+    const history = useHistory()
+
+    // console.log(selectedBook)
+
   return (
     <>
     <Container>
@@ -90,27 +96,29 @@ function App() {
           </Route>
 
           <Route exact path="/books">
-            <BooksList books={books}/>
+            <BooksList books={books} />
           </Route>
 
           <Route exact path="/books/new">
             <BookForm />
           </Route>
 
+
           <Route exact path="/books/:id/reviews/new">
             <ReviewForm reviews={reviews}/>
           </Route>
 
           <Route path="/books/:id/reviews">
-            <ReviewList reviews={reviews} users={users} books={books}/>
+            <ReviewList books={books} selectedBook={selectedBook} reviews={reviews} users={users} />
           </Route>
 
+
           <Route exact path="/login">
-            <LoginForm  updateUser={updateUser}/>
+            <LoginForm updateUser={updateUser}/>
           </Route>
 
           <Route path="/">
-            <Home books={books} currentUser={currentUser} updateUser={updateUser} reviews={reviews} setCurrentUser={setCurrentUser}/>
+            <Home books={books} currentUser={currentUser} updateUser={updateUser} reviews={reviews} setCurrentUser={setCurrentUser} selectedBook={selectedBook} setSelectedBook={setSelectedBook}/>
           </Route>
 
 

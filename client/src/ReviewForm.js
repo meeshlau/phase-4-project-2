@@ -1,4 +1,4 @@
-import React, { useState, useHistory } from 'react'
+import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -48,7 +48,6 @@ function ReviewForm({ reviews }) {
                 <Form onSubmit={onSubmit}>
 
                 <InputGroup className="mb-3">
-                    <InputGroup.Text></InputGroup.Text>
                 <Form.Control as="textarea" aria-label="comment" name="review_comment" value={review_comment} onChange={handleChange} placeholder="Tell us about this book." />
                 </InputGroup>
 
