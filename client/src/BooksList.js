@@ -1,20 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card'
-import { useHistory, Route, Switch } from 'react-router-dom'
-import ReviewList from './ReviewList'
+import { useHistory } from 'react-router-dom'
 
-function BooksList({ books, setSelectedBook, selectedBook }) {
+
+function BooksList({ books, currentUser }) {
 
     const history = useHistory() 
 
     function handleViewReviewsClick(b) {
-        setSelectedBook([b])
-        // console.log(selectedBook)
         history.push(`/books/${b.id}/reviews`)
     }
 
+    function handleAddReviewClick(b) {
+        history.push(`/books/${b.id}/reviews/new`)
+    }
 
+    function handleUpdateReviewsClick(b) {
+        history.push(`/books/${b.id}/reviews/update`)
+    }
 
     return(
         <div>
@@ -28,14 +32,13 @@ function BooksList({ books, setSelectedBook, selectedBook }) {
                 Written By: {book.author} <br></br>
                 Illustrated By: {book.illustrator}<br></br>
                 </Card.Text>
-                <Card.Link href={`/books/${book.id}/reviews/new`}>Review this book</Card.Link>
-                <Card.Link onClick={() => handleViewReviewsClick(book)} >View Reviews</Card.Link>
-
+                <Card.Link onClick={() => handleAddReviewClick(book)}>Review this book</Card.Link>
+                <Card.Link onClick={() => handleViewReviewsClick(book)} >View reviews</Card.Link>
+                {currentUser  ? <Card.Link onClick={() => handleUpdateReviewsClick(book)}>Update your review</Card.Link> : null }
             </Card.Body>
             </Card>
             )}
             </Container>
-            
         </div>
     )
 }

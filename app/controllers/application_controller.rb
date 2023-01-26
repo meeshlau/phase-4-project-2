@@ -22,7 +22,7 @@ class ApplicationController < ActionController::API
   end
 
   def is_authorized?
-    permitted = current_user.admin?
+    permitted = current_user
     render json: { errors: {User: "does not have admin permissions"} }, status: :forbidden unless permitted
   end
 

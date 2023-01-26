@@ -12,6 +12,8 @@ import Container from 'react-bootstrap/Container';
 import ReviewForm from './ReviewForm'
 import BookForm from './BookForm'
 import ReviewList from './ReviewList'
+import UpdateReview from './UpdateReview'
+import "./App.css"
 
 function App() {
   const [books, setBooks] = useState([])
@@ -54,7 +56,6 @@ function App() {
     })
   }
 
-
     const fetchUsers = () => {
       fetch('/users')
       .then(res => {
@@ -76,9 +77,6 @@ function App() {
 
     const updateUser = (user) => setCurrentUser(user)
 
-    const history = useHistory()
-
-    // console.log(selectedBook)
 
   return (
     <>
@@ -96,19 +94,22 @@ function App() {
           </Route>
 
           <Route exact path="/books">
-            <BooksList books={books} />
+            <BooksList books={books} setSelectedBook={setSelectedBook} selectedBook={selectedBook}/>
           </Route>
 
           <Route exact path="/books/new">
             <BookForm />
           </Route>
 
-
-          <Route exact path="/books/:id/reviews/new">
-            <ReviewForm reviews={reviews}/>
+          <Route exact path="/books/:book_id/reviews/new">
+            <ReviewForm books={books} currentUser={currentUser}/>
           </Route>
 
-          <Route path="/books/:id/reviews">
+          <Route exact path="/books/:book_id/reviews/update">
+            <UpdateReview currentUser={currentUser} books={books} users={users} setReviews={setReviews} reviews={reviews}/>
+          </Route>
+
+          <Route path="/books/:book_id/reviews">
             <ReviewList books={books} selectedBook={selectedBook} reviews={reviews} users={users} />
           </Route>
 

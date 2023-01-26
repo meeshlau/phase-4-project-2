@@ -33,7 +33,6 @@ function BookForm() {
         .then(res => res.json())
         .then(newBook => {
             setFormData(newBook)
-            console.log(newBook)
         })
         setFormData({
             title: "",
@@ -56,27 +55,22 @@ function BookForm() {
                 <Form onSubmit={onSubmit}>
 
                 <Form.Group className="mb-3" controlId="loginFormTitle">
-                <Form.Label>Title</Form.Label>
                 <Form.Control type="text" name='title' value={title} onChange={handleChange} placeholder="Title" />
                 </Form.Group>
         
                 <Form.Group className="mb-3" controlId="loginFormAuthor">
-                <Form.Label>Author</Form.Label>
                 <Form.Control type="text" name='author' value={author} onChange={handleChange} placeholder="Author" />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="loginFormIllustrator">
-                <Form.Label>Illustrator</Form.Label>
                 <Form.Control type="text" name='illustrator' value={illustrator} onChange={handleChange} placeholder="Illustrator" />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="loginFormGenre">
-                <Form.Label>Genre</Form.Label>
                 <Form.Control type="text" name='genre' value={genre} onChange={handleChange} placeholder="Genre" />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="loginFormImageUrl">
-                <Form.Label>Image URL</Form.Label>
                 <Form.Control type="url" name='image_url' value={image_url} onChange={handleChange} placeholder="Image URL" />
                 </Form.Group>
 

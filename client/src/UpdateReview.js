@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup'
 
-function ReviewForm({ currentUser, books }) {
+function UpdateReview({ books, reviews, currentUser, users, setReviews }) {
     const [starRating, setStarRating] = useState(0);
     const [hover, setHover] = useState(0);
 
@@ -25,7 +25,7 @@ function ReviewForm({ currentUser, books }) {
 
     const {review_comment, rating, book_id, user_id} = formData
 
-    function onSubmit(e) {
+    function handleSubmit(e) {
         e.preventDefault()
 
         const review = {
@@ -37,8 +37,8 @@ function ReviewForm({ currentUser, books }) {
 
         console.log(review)
 
-        fetch(`/books/${book_id}/reviews/new`, {
-            method: 'POST',
+        fetch(`/books/${book_id}/reviews/update`, {
+            method: 'PATCH',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(review)
         })
@@ -60,33 +60,58 @@ function ReviewForm({ currentUser, books }) {
         setFormData({ ...formData, [name]: value})
     }
 
-    // console.log(book_id)
+    const handleDeleteClick = (e) => {
+        fetch(`/reviews/${e.target.value}/delete`, {
+            method: "DELETE",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }})
+        .then(r => r.json())
+        .then(r => setReviews(
+            reviews.filter(rev => rev.id !== e.target.value)
+        ))
+    }
+
 
     return (
         <div>
             <Container>
-                {books.filter(book => 
-                    (book.id == params.book_id)).map (b => (
-                        <h3>Write your review for {b.title}</h3>
+                {users.filter(user => 
+                    (currentUser.id == user.id)).map (review => (
+                        <div>
+                        {/* <h3>Write your review for {b.title}</h3> */}
+                        <Form onSubmit={handleSubmit}>
+                        {review.reviews.map(rev =>
+                            <div>
+                            <InputGroup className="mb-3">
+                            <Form.Control as="textarea" aria-label="comment" name="review_comment" value={rev.review_comment} onChange={handleChange} />
+                            </InputGroup>
+
+                            <Form.Select aria-label="Default select example" name="rating" value={rev.rating} onChange={handleChange}>
+                            <option>Rating</option>
+                            <option value="5">5</option>
+                            <option value="4">4</option>
+                            <option value="3">3</option>
+                            <option value="2">2</option>
+                            <option value="1">1</option>
+                            </Form.Select>
+
+                            <br></br>
+                            <Button variant="primary" type="submit">
+                            Re-Submit
+                            </Button>
+                            <Button variant="primary" value={rev.id} onClick={handleDeleteClick}>
+                                Delete
+                            </Button>
+                            </div>
+                        )}
+                        
+                        </Form>
+
+                        </div>
                     ))
-                    }
-                <Form onSubmit={onSubmit}>
-
-                <InputGroup className="mb-3">
-                <Form.Control as="textarea" aria-label="comment" name="review_comment" value={formData.review_comment} onChange={handleChange} placeholder="Tell us about this book." />
-                </InputGroup>
-
-                <Form.Select aria-label="Default select example" name="rating" value={formData.rating} onChange={handleChange}>
-                <option>Rating</option>
-                <option value="5">5</option>
-                <option value="4">4</option>
-                <option value="3">3</option>
-                <option value="2">2</option>
-                <option value="1">1</option>
-                </Form.Select>
-
-                <br></br>
-
+                }
 
                 {/* {[...Array(5)].map((star, index) => {
                 index += 1;
@@ -106,16 +131,12 @@ function ReviewForm({ currentUser, books }) {
                 );
                 })} */}
 
-                <Button variant="primary" type="submit">
-                Submit
-                </Button>
 
-
-                </Form>
 
             </Container>
         </div>
     )
+
 }
 
-export default ReviewForm
+export default UpdateReview

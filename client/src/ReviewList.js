@@ -1,26 +1,40 @@
 import React from 'react'
 import Container from 'react-bootstrap/Container';
 import Alert from 'react-bootstrap/Alert';
+import { useParams } from 'react-router-dom'
 
-function ReviewList({ books, selectedBook, reviews, users }) {
-    // console.log(users)
-    console.log(users)
-    console.log(selectedBook)
+function ReviewList({ books, users }) {
+    const params = useParams()
 
     return (
         <Container>
         <div>
-            {selectedBook.map(book => 
-                <Alert key={book.id}>{book.reviews.map(rev =>
-                    <div>
-                    <Alert.Heading>{rev.review_comment}</Alert.Heading>
-                    <p>{rev.user_id}</p>
-                    </div>
+            {books.filter(book => 
+            (book.id == params.book_id)).map (b => (
+                <div>
+                    <h2>{b.title} </h2>
+                    <Alert key={b[params.book_id]}>
 
-                )}
-                </Alert>
+                    {b.reviews.map(rev =>
+                        <div>
+                        <p>{rev.review_comment} </p>
+                        <div className="star-rating" >
+                        {[...Array(rev.rating)].map((star) => {        
+                        return (         
+                            <span className="star">&#9733;</span>        
+                        );
+                        })}
+                        </div>
+                        
+                        <p>-{users.filter(user => user.id === rev.user_id).map(u => u.username)}</p>
+                        <hr />
+                        </div>
 
-            )}
+                    )}
+                    </Alert>
+                </div>
+            ))}
+
         </div>
         </Container>
     )
