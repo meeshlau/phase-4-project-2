@@ -16,9 +16,11 @@ function BooksList({ books, currentUser }) {
         history.push(`/books/${b.id}/reviews/new`)
     }
 
-    function handleUpdateReviewsClick(b) {
-        history.push(`/books/${b.id}/reviews/update`)
-    }
+
+
+    // function handleDeleteReviewsClick(b) {
+    //     fetch(`/reviews/${b}`)
+    // }
 
     return(
         <div>
@@ -34,7 +36,6 @@ function BooksList({ books, currentUser }) {
                 </Card.Text>
                 <Card.Link onClick={() => handleAddReviewClick(book)}>Review this book</Card.Link>
                 <Card.Link onClick={() => handleViewReviewsClick(book)} >View reviews</Card.Link>
-                {currentUser  ? <Card.Link onClick={() => handleUpdateReviewsClick(book)}>Update your review</Card.Link> : null }
             </Card.Body>
             </Card>
             )}

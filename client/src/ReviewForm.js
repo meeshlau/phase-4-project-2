@@ -19,6 +19,11 @@ function ReviewForm({ currentUser, books }) {
         user_id: currentUser.id
     })
 
+    function refreshPage() {
+        window.location.reload(false)
+
+    }
+
     // console.log(selectedBook[0].id)
 
 
@@ -46,6 +51,7 @@ function ReviewForm({ currentUser, books }) {
         .then(review => {
             setFormData(review)
             history.push(`/books/${book_id}/reviews`)
+            refreshPage()
         })
         setFormData({
             review_comment: "",
@@ -67,12 +73,12 @@ function ReviewForm({ currentUser, books }) {
             <Container>
                 {books.filter(book => 
                     (book.id == params.book_id)).map (b => (
-                        <h3>Write your review for {b.title}</h3>
+                        <h3 >Write your review for {b.title}</h3>
                     ))
                     }
                 <Form onSubmit={onSubmit}>
 
-                <InputGroup className="mb-3">
+                <InputGroup className="mb-3" >
                 <Form.Control as="textarea" aria-label="comment" name="review_comment" value={formData.review_comment} onChange={handleChange} placeholder="Tell us about this book." />
                 </InputGroup>
 

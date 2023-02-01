@@ -6,15 +6,19 @@ Rails.application.routes.draw do
   get "/auth", to: "users#show"
   post '/books/new', to: "books#create"
   post '/books/:book_id/reviews/new', to: "reviews#create"
+  delete '/books/:book_id/reviews/:review_id', to: 'reviews#destroy'
   get '/books/:book_id/reviews', to: "reviews#show"
-  delete '/reviews/:id/delete', to: 'reviews#destroy'
+  patch '/books/:book_id/reviews/:review_id/update', to: 'reviews#update'
+
 
   # get '*path',
   # to: 'fallback#index',
   # constraints: ->(req) { !req.xhr? && req.format.html? }
 
-  resources :books
-  resources :reviews, only: [:index, :show, :create, :destroy, :update]
-  resources :users, only: [:index, :show, :create, :show]
+  resources :books do
+    resources :reviews
+  end
+  resources :reviews
+  resources :users, only: [:index, :show, :create]
   resources :sessions, only: [:create, :destroy, :show]
 end

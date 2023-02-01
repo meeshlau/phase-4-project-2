@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react'
 import { useState, useEffect } from "react";
 import Home from './Home'
-import { Switch, Route, useHistory } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import SignUpForm from './SignUpForm'
 import LoginForm from './LoginForm'
 import BooksList from './BooksList'
@@ -13,6 +13,7 @@ import ReviewForm from './ReviewForm'
 import BookForm from './BookForm'
 import ReviewList from './ReviewList'
 import UpdateReview from './UpdateReview'
+import DeleteReview from './DeleteReview'
 import "./App.css"
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
   const [reviews, setReviews] = useState([])
   const [users, setUsers] = useState([])
   const [selectedBook, setSelectedBook] = useState([])
+  const [deletedReviewId, setDeletedReviewId] = useState()
 
   useEffect(() => {
     fetch("/auth").then((response) => {
@@ -77,6 +79,12 @@ function App() {
 
     const updateUser = (user) => setCurrentUser(user)
 
+    const handleDeleteReview = () => {
+      const updatedReviewsArr = reviews.filter(r => r.id !== deletedReviewId)
+      setReviews(updatedReviewsArr)
+      // console.log(updatedReviewsArr)
+    }
+
 
   return (
     <>
@@ -94,25 +102,28 @@ function App() {
           </Route>
 
           <Route exact path="/books">
-            <BooksList books={books} setSelectedBook={setSelectedBook} selectedBook={selectedBook}/>
+            <BooksList books={books} setSelectedBook={setSelectedBook} selectedBook={selectedBook} setReviews={setReviews}/>
           </Route>
 
           <Route exact path="/books/new">
             <BookForm />
           </Route>
 
+          <Route exact path="/books/:book_id/reviews/:review_id/update">
+            <UpdateReview currentUser={currentUser} books={books} users={users} reviews={reviews}/>
+          </Route>
+
           <Route exact path="/books/:book_id/reviews/new">
             <ReviewForm books={books} currentUser={currentUser}/>
           </Route>
 
-          <Route exact path="/books/:book_id/reviews/update">
-            <UpdateReview currentUser={currentUser} books={books} users={users} setReviews={setReviews} reviews={reviews}/>
+          <Route exact path="/books/:book_id/reviews">
+            <ReviewList books={books} selectedBook={selectedBook} deletedReviewId={deletedReviewId} reviews={reviews} users={users} currentUser={currentUser} setDeletedReviewId={setDeletedReviewId} setReviews={setReviews} />
           </Route>
 
-          <Route path="/books/:book_id/reviews">
-            <ReviewList books={books} selectedBook={selectedBook} reviews={reviews} users={users} />
+          <Route exact path="/books/:book_id/reviews/:review_id/delete">
+            <DeleteReview reviews={reviews} deletedReviewId={deletedReviewId} setDeletedReviewId={setDeletedReviewId} handleDeleteReview={handleDeleteReview}/>
           </Route>
-
 
           <Route exact path="/login">
             <LoginForm updateUser={updateUser}/>
