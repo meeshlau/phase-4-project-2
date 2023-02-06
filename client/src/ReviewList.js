@@ -1,85 +1,64 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Container from 'react-bootstrap/Container';
-import Alert from 'react-bootstrap/Alert';
 import { useParams, useHistory } from 'react-router-dom'
+import ListGroup from 'react-bootstrap/ListGroup';
 
 
-function ReviewList({ books, users, currentUser, deletedReviewId, setDeletedReviewId, setReviews}) {
+function ReviewList({ books, users, currentUser, setDeletedReviewId, reviews }) {
     const params = useParams()
-    const history = useHistory()
     const [errors, setErrors] = useState((false))
 
-    useEffect(() => {
-        fetch(`/books/${params.book_id}/reviews`)
-        .then(res => {
-            if(res.ok) {
-                res.json().then(data => {
-                    setReviews(data)
-                })
-            } else {
-                console.log('error')
-                res.json().then(data => setErrors(data.error))
-            }
-        })
-    }, [])
-
-    function handleUpdateReviewClick(e) {
-        history.push(`/books/${params.book_id}/reviews/${e.target.id}/update`)
-    }
+    const history = useHistory()
 
     const handleDeleteReviewClick = (e) => {
         fetch(`/books/${params.book_id}/reviews/${e.target.id}`, {
             method: "DELETE",
             headers: {
-                "Accept": "application/json",
                 "Content-Type": "application/json"
             },
         })
         .then(() => {
             setDeletedReviewId(e.target.id)
-            history.push(`/books/${params.book_id}/reviews/`)
+            alert('Your review has been deleted.')
         })
     }
 
-
     return (
         <Container>
-        <div>
-            {books.filter(book => 
-            (book.id == params.book_id)).map (b => (
-                <div>
-                    <h2>{b.title}</h2>
-                    <Alert key={b[params.book_id]} id={b[params.book_id]}>
-
-                    {b.reviews.map(rev =>
-                        <div>
-                        <p id={rev.id} key={rev.id}>{rev.review_comment} </p>
-                        
-                        <div className="star-rating" >
-                        {[...Array(rev.rating)].map((star) => {        
-                        return (         
-                            <span className="star">&#9733;</span>        
-                        );
-                        })}
-                        
-                        </div>
-                        
-                        <p>-{users.filter(user => user.id === rev.user_id).map(u => u.username)}</p>
-
-                        {currentUser.id === rev.user_id   ? <Alert.Link id={rev.id} onClick={(e) => handleUpdateReviewClick(e)}>Update your review</Alert.Link> : null }
-                        <br></br>
-                        {currentUser.id === rev.user_id  ? <Alert.Link href={`/books/${params.book_id}/reviews`} id={rev.id} value={rev.id} onClick={(e) => handleDeleteReviewClick(e)}>Delete your review</Alert.Link> : null }
-                        <hr />
-                        </div>
-
+            <div>
+                {books.filter(book =>
+                        (params.book_id == book.id)).map (book => (
+                            <h3 key={book.id}>{book.title} reviews</h3>
+                        )
                     )}
-                    </Alert>
-                </div>
-            ))}
+                {reviews.filter(review => 
+                    (review.book_id == params.book_id)).map (r => (
+                        <div>
+                            {/* <ListGroup key={r.updated_at}> */}
+                                <ListGroup.Item key={r.updated_at} id={r.id}>{r.review_comment} </ListGroup.Item>
+                                    
+                                <div className="star-rating" >
+                                <ListGroup.Item key={r.rating}>
+                                    {[...Array(r.rating)].map((star) => {        
+                                    return (         
+                                        <span className="star">&#9733;</span>        
+                                    );
+                                    })}
+                                </ListGroup.Item>
+                                </div>
+                                <ListGroup.Item key={r.user_id}>-{users.filter(user => user.id === r.user_id).map(u => u.username)}</ListGroup.Item>
 
-        </div>
+                                {currentUser.id === r.user_id ? <ListGroup.Item id={r.id} onClick={() => history.push(`/books/${params.book_id}/reviews/${r.id}/update`)}>Update your review</ListGroup.Item> : null }
+                                {currentUser.id === r.user_id ? <ListGroup.Item action="true" href={`/books/${params.book_id}/reviews`} id={r.id} value={r.id} onClick={(e) => handleDeleteReviewClick(e)}>Delete your review</ListGroup.Item> : null }
+                                <hr />
+                            {/* </ListGroup> */}
+                        </div>
+                    )
+                )}
+            </div>
         </Container>
     )
 }
+
 
 export default ReviewList

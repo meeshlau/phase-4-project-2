@@ -5,5 +5,10 @@ class BookSerializer < ActiveModel::Serializer
   #   (object.average_rating.to_f /100).to_f.round(2)
   # end
 
+  # def average_rating
+  #   object.avg_rating
+  # end
+
+
   has_many :reviews
 end

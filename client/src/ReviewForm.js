@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup'
 
-function ReviewForm({ currentUser, books }) {
+function ReviewForm({ currentUser, books, addReview }) {
     const [starRating, setStarRating] = useState(0);
     const [hover, setHover] = useState(0);
 
@@ -19,15 +19,6 @@ function ReviewForm({ currentUser, books }) {
         user_id: currentUser.id
     })
 
-    function refreshPage() {
-        window.location.reload(false)
-
-    }
-
-    // console.log(selectedBook[0].id)
-
-
-
     const {review_comment, rating, book_id, user_id} = formData
 
     function onSubmit(e) {
@@ -40,8 +31,6 @@ function ReviewForm({ currentUser, books }) {
             user_id
         }
 
-        console.log(review)
-
         fetch(`/books/${book_id}/reviews/new`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -49,9 +38,7 @@ function ReviewForm({ currentUser, books }) {
         })
         .then(res => res.json())
         .then(review => {
-            setFormData(review)
-            history.push(`/books/${book_id}/reviews`)
-            refreshPage()
+            addReview(review) 
         })
         setFormData({
             review_comment: "",
@@ -59,14 +46,13 @@ function ReviewForm({ currentUser, books }) {
             book_id: params.book_id,
             user_id: currentUser.id
         })
+        history.push(`/books/${book_id}/reviews`)
     }
 
     const handleChange = (e) => {
         const {name, value} = e.target
         setFormData({ ...formData, [name]: value})
     }
-
-    // console.log(book_id)
 
     return (
         <div>

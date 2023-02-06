@@ -51,24 +51,22 @@ function LoginForm({ updateUser }) {
     return(
         <div>
             <Container>
-            <h2>Login:</h2>
-        <Form onSubmit={onSubmit}>
+            <h3>Login:</h3>
+                <Form onSubmit={onSubmit}>
 
-        <Form.Group className="mb-3" controlId="loginFormUsername">
-          <Form.Label>Username</Form.Label>
-          <Form.Control type="username" name='username' value={username} onChange={handleChange} placeholder="Username" />
-        </Form.Group>
-  
-        <Form.Group className="mb-3" controlId="loginFormPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" name='password' value={password} onChange={handleChange} placeholder="Password" />
-        </Form.Group>
+                <Form.Group className="mb-3" controlId="loginFormUsername">
+                <Form.Control type="username" name='username' value={username} onChange={handleChange} placeholder="Username" />
+                </Form.Group>
+        
+                <Form.Group className="mb-3" controlId="loginFormPassword">
+                <Form.Control type="password" name='password' value={password} onChange={handleChange} placeholder="Password" />
+                </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Log in!
-        </Button>
-        </Form>
-        </Container>
+                <Button variant="primary" type="submit">
+                Log in!
+                </Button>
+                </Form>
+            </Container>
         </div>
     )
 

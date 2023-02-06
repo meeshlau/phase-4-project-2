@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 import { useHistory } from 'react-router-dom'
 
 function SignUpForm({ updateUser }){
@@ -52,23 +54,25 @@ function SignUpForm({ updateUser }){
         <h5>Sign up to add a book that's missing from our library, or to add your own review to Keiki Books</h5>
 
         <Form onSubmit={onSubmit}>
-        <Form.Group className="mb-3" controlId="signUpFormEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" name='email' value={email} onChange={handleChange} placeholder="Enter email" />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
-        </Form.Group>
 
-        <Form.Group className="mb-3" controlId="signUpFormUsername">
-          <Form.Label>Username</Form.Label>
-          <Form.Control type="username" name='username' value={username} onChange={handleChange} placeholder="Enter desired username" />
-        </Form.Group>
-  
-        <Form.Group className="mb-3" controlId="signUpFormPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" name='password' value={password} onChange={handleChange} placeholder="Password" />
-        </Form.Group>
+          <Row>
+            <Form.Group as={Col} className="mb-3" controlId="signUpFormUsername">
+              <Form.Control type="username" name='username' value={username} onChange={handleChange} placeholder="Enter desired username" />
+            </Form.Group>
+      
+            <Form.Group as={Col} className="mb-3" controlId="signUpFormPassword">
+              <Form.Control type="password" name='password' value={password} onChange={handleChange} placeholder="Password" />
+            </Form.Group>
+          </Row>
+
+          <Row>
+              <Form.Group className="mb-3" controlId="signUpFormEmail">
+              <Form.Control type="email" name='email' value={email} onChange={handleChange} placeholder="Enter email address" />
+              <Form.Text className="text-muted">
+                We'll never share your email with anyone else.
+              </Form.Text>
+              </Form.Group>
+          </Row>
 
         <Button variant="primary" type="submit">
           Sign Up!

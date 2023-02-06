@@ -1,18 +1,16 @@
 import React from 'react'
-// import SignUpForm from './SignUpForm'
-// import LoginForm from './LoginForm'
 import Container from 'react-bootstrap/Container';
 import BooksList from './BooksList'
 
 
-function Home({ books, reviews, currentUser }) {
 
+function Home({ books }) {
 
-    
     return(
         <div>
             <Container>
-                <BooksList books={books} reviews={reviews} currentUser={currentUser} />
+                <h3>Browse through children's books, and add your review.</h3>
+                <BooksList books={books} />
             </Container>
         </div>
     )

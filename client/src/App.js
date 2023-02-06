@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react'
 import { useState, useEffect } from "react";
 import Home from './Home'
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useParams, useHistory } from "react-router-dom";
 import SignUpForm from './SignUpForm'
 import LoginForm from './LoginForm'
 import BooksList from './BooksList'
@@ -13,7 +13,6 @@ import ReviewForm from './ReviewForm'
 import BookForm from './BookForm'
 import ReviewList from './ReviewList'
 import UpdateReview from './UpdateReview'
-import DeleteReview from './DeleteReview'
 import "./App.css"
 
 function App() {
@@ -22,8 +21,9 @@ function App() {
   const [currentUser, setCurrentUser] = useState('')
   const [reviews, setReviews] = useState([])
   const [users, setUsers] = useState([])
-  const [selectedBook, setSelectedBook] = useState([])
   const [deletedReviewId, setDeletedReviewId] = useState()
+
+  const history = useHistory()
 
   useEffect(() => {
     fetch("/auth").then((response) => {
@@ -73,28 +73,36 @@ function App() {
       setCurrentUser(null)
     }
 
-    const handleLogin = (user) => {
-      setCurrentUser(user)
-    }
-
     const updateUser = (user) => setCurrentUser(user)
 
-    const handleDeleteReview = () => {
-      const updatedReviewsArr = reviews.filter(r => r.id !== deletedReviewId)
-      setReviews(updatedReviewsArr)
-      // console.log(updatedReviewsArr)
+    const editReview = (review) => {
+      setReviews(current => {
+        return current.map(r => {
+          if(r.id === review.id) {
+            return review
+          } else {
+            return r
+          }
+        })
+      })
+
     }
+
+    const addReview = (review) => {
+      setReviews(current => [...reviews, review])
+    }
+
 
 
   return (
     <>
     <Container>
-    <NaviBar currentUser={currentUser} updateUser={updateUser} onLogOut={handleLogOut} handleLogin={handleLogin}/>
+    <NaviBar currentUser={currentUser} onLogOut={handleLogOut} />
     {/* <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqmM7wDJ4cVPhbm3ggdlB3q-bXIFKOz_bfAg&usqp=CAU'className="center"></img> */}
     </Container>
     <Container>
     <h3>Welcome to Keiki Books!</h3>
-    Browse through children's books, and add your review.<br></br><br></br>
+    <br></br><br></br>
     </Container>
       <Switch>
           <Route exact path="/users/new">
@@ -102,7 +110,7 @@ function App() {
           </Route>
 
           <Route exact path="/books">
-            <BooksList books={books} setSelectedBook={setSelectedBook} selectedBook={selectedBook} setReviews={setReviews}/>
+            <BooksList />
           </Route>
 
           <Route exact path="/books/new">
@@ -110,27 +118,27 @@ function App() {
           </Route>
 
           <Route exact path="/books/:book_id/reviews/:review_id/update">
-            <UpdateReview currentUser={currentUser} books={books} users={users} reviews={reviews}/>
+            <UpdateReview currentUser={currentUser} books={books} users={users} editReview={editReview} setReviews={setReviews} reviews={reviews}/>
           </Route>
 
           <Route exact path="/books/:book_id/reviews/new">
-            <ReviewForm books={books} currentUser={currentUser}/>
+            <ReviewForm books={books} currentUser={currentUser} addReview={addReview}/>
           </Route>
 
           <Route exact path="/books/:book_id/reviews">
-            <ReviewList books={books} selectedBook={selectedBook} deletedReviewId={deletedReviewId} reviews={reviews} users={users} currentUser={currentUser} setDeletedReviewId={setDeletedReviewId} setReviews={setReviews} />
+            <ReviewList books={books} users={users} currentUser={currentUser} setDeletedReviewId={setDeletedReviewId} reviews={reviews} setReviews={setReviews}/>
           </Route>
 
-          <Route exact path="/books/:book_id/reviews/:review_id/delete">
+          {/* <Route exact path="/books/:book_id/reviews/:review_id/delete">
             <DeleteReview reviews={reviews} deletedReviewId={deletedReviewId} setDeletedReviewId={setDeletedReviewId} handleDeleteReview={handleDeleteReview}/>
-          </Route>
+          </Route> */}
 
           <Route exact path="/login">
             <LoginForm updateUser={updateUser}/>
           </Route>
 
           <Route path="/">
-            <Home books={books} currentUser={currentUser} updateUser={updateUser} reviews={reviews} setCurrentUser={setCurrentUser} selectedBook={selectedBook} setSelectedBook={setSelectedBook}/>
+            <Home books={books} users={users} currentUser={currentUser} setDeletedReviewId={setDeletedReviewId}/>
           </Route>
 
 

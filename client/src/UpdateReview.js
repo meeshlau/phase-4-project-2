@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup'
 
-function UpdateReview({ books, reviews, currentUser, users }) {
+function UpdateReview({ books, currentUser, users, editReview, setReviews, reviews }) {
     const [starRating, setStarRating] = useState(0);
     const [hover, setHover] = useState(0);
 
@@ -19,8 +19,6 @@ function UpdateReview({ books, reviews, currentUser, users }) {
         user_id: currentUser.id
     })
 
-    console.log(params)
-
     const {review_comment, rating, book_id, user_id} = formData
 
     function handleSubmit(e) {
@@ -33,8 +31,6 @@ function UpdateReview({ books, reviews, currentUser, users }) {
             user_id
         }
 
-        console.log(review)
-
         fetch(`/books/${book_id}/reviews/${params.review_id}/update`, {
             method: 'PATCH',
             headers: {'Content-Type': 'application/json'},
@@ -42,11 +38,7 @@ function UpdateReview({ books, reviews, currentUser, users }) {
         })
         .then(res => res.json())
         .then(review => {
-            setFormData(review)
-            // console.log(review)
-            history.push(`/books/${book_id}/reviews`)
-
-
+            editReview(review)
         })
         setFormData({
             review_comment: "",
@@ -54,6 +46,7 @@ function UpdateReview({ books, reviews, currentUser, users }) {
             book_id: params.book_id,
             user_id: currentUser.id
         })
+        history.push(`/books/${review.book_id}/reviews`)
     }
 
     const handleChange = (e) => {
@@ -66,46 +59,40 @@ function UpdateReview({ books, reviews, currentUser, users }) {
             <Container>
                 {books.filter(book =>
                     (params.book_id == book.id)).map (book => (
-                        <h3>Your review for {book.title}</h3>
-                    ))
-                }
+                        <h3 key={book.id}>Your review for {book.title}</h3>
+                    )
+                )}
 
                 {users.filter(user => 
                     (currentUser.id == user.id)).map (review => (
                         <div>
                             {review.reviews.filter(rev =>
                                 (params.review_id == rev.id)).map(r => (
-                                
-                                <div>
-                                <Form onSubmit={handleSubmit} id={r.id}>
-                                <InputGroup className="mb-3">
-                                <Form.Control as="textarea" aria-label="comment" name="review_comment" value={formData.review_comment} placeholder={r.review_comment} onChange={handleChange} />
-                                </InputGroup>
+                                    <div>
+                                        <Form onSubmit={handleSubmit} id={r.id}>
+                                        <InputGroup className="mb-3">
+                                        <Form.Control as="textarea" aria-label="comment" name="review_comment" value={formData.review_comment} placeholder={r.review_comment} onChange={handleChange} />
+                                        </InputGroup>
 
-                                <Form.Select aria-label="Default select example" name="rating" value={formData.rating} placeholder={r.rating} onChange={handleChange}>
-                                <option>Rating</option>
-                                <option value="5">5</option>
-                                <option value="4">4</option>
-                                <option value="3">3</option>
-                                <option value="2">2</option>
-                                <option value="1">1</option>
-                                </Form.Select>
+                                        <Form.Select aria-label="Default select example" name="rating" value={formData.rating} placeholder={r.rating} onChange={handleChange}>
+                                        <option>Rating</option>
+                                        <option value="5">5</option>
+                                        <option value="4">4</option>
+                                        <option value="3">3</option>
+                                        <option value="2">2</option>
+                                        <option value="1">1</option>
+                                        </Form.Select>
 
-                                <br></br>
-                                <Button variant="primary" type="submit" >
-                                Re-Submit
-                                </Button>
-                                </Form>
-                                </div>
+                                        <br></br>
+                                        <Button variant="primary" type="submit" >
+                                        Re-Submit
+                                        </Button>
+                                        </Form>
+                                    </div>
                                 ))
-
-
                             }
-
                         </div>
                     ))
-                    
-
                 }
 
                 {/* {[...Array(5)].map((star, index) => {
@@ -126,12 +113,9 @@ function UpdateReview({ books, reviews, currentUser, users }) {
                 );
                 })} */}
 
-
-
             </Container>
         </div>
     )
-
 }
 
 export default UpdateReview
