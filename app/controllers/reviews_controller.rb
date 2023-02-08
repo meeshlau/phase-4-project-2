@@ -1,7 +1,8 @@
 class ReviewsController < ApplicationController
     before_action :find_review, only: [:show]
-    skip_before_action :authenticate_user
-    # before_action :is_owner?, only: [:update, :destroy]
+    # skip_before_action :authenticate_user
+    before_action :is_owner, only: [:update, :destroy]
+    before_action :is_authorized?, only: [:index, :show]
 
     def index
         @review = Review.all
@@ -50,7 +51,7 @@ class ReviewsController < ApplicationController
     private
 
     def review_params
-        params.permit(:id, :book_id, :user_id, :review_comment, :rating, :review_id)
+        params.permit(:id, :book_id, :user_id, :review_comment, :rating, :review_id, :review)
     end
 
     def update_review_params
@@ -61,10 +62,16 @@ class ReviewsController < ApplicationController
         review = Review.find_by(id: params[:review_id])
     end
 
-    def is_owner?
-        review = Review.find_by(id: params[:id])
-        debugger
-        permitted = review == current_user.id
-        render json: { errors: {User: "is not authorized" }, status: :forbidden}
+    # def is_owner?
+    #     review = Review.find_by(id: params[:id])
+    #     # debugger
+    #     permitted = review == current_user.id
+    #     render json: { errors: {User: "is not authorized" }, status: :forbidden}
+    # end
+
+    def is_owner
+        if Review.find_by(id: params[:id]) != current_user
+            {error: "You do not have permission to do that."}
+        end
     end
 end

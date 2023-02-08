@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 
-function BookForm() {
+function BookForm({ addBook }) {
     const [formData, setFormData] = useState({
         title:'',
         author:'',
@@ -11,6 +12,8 @@ function BookForm() {
         genre: '',
         image_url: '',
     })
+
+    const history = useHistory()
 
 
     const {title, author, illustrator, genre, image_url} = formData
@@ -32,7 +35,12 @@ function BookForm() {
         })
         .then(res => res.json())
         .then(newBook => {
-            setFormData(newBook)
+            addBook(newBook)
+            if (newBook.errors) {
+                history.push(`/books/new`)
+            } else {
+                history.push(`/home`)
+            }
         })
         setFormData({
             title: "",
@@ -41,6 +49,7 @@ function BookForm() {
             genre: "",
             image_url: ""
         })
+        // history.push(`/home`)
     }
 
     const handleChange = (e) => {

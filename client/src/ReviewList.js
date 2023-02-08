@@ -24,8 +24,10 @@ function ReviewList({ books, users, currentUser, setDeletedReviewId, reviews }) 
     }
 
     return (
+        <div>
+        { currentUser ? 
         <Container>
-            <div>
+
                 {books.filter(book =>
                         (params.book_id == book.id)).map (book => (
                             <h3 key={book.id}>{book.title} reviews</h3>
@@ -55,8 +57,9 @@ function ReviewList({ books, users, currentUser, setDeletedReviewId, reviews }) 
                         </div>
                     )
                 )}
-            </div>
-        </Container>
+        </Container> : <Container><h2>Want to view reviews? <br></br><a href="/users/new">Sign Up!</a></h2></Container>}
+        </div>
+
     )
 }
 

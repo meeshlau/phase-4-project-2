@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   
   get '/logged_in', to: 'sessions#is_logged_in?'
   post '/login', to: 'sessions#create'
+  post '/users/new', to: 'users#create'
   delete '/logout', to: 'sessions#destroy'
   get "/auth", to: "users#show"
   post '/books/new', to: "books#create"

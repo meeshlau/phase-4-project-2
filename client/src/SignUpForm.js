@@ -13,9 +13,15 @@ function SignUpForm({ updateUser }){
         password: ''
     })
 
+    const [errors, setErrors] = useState([])
+
     const history = useHistory()
 
     const {username, email, password} = formData
+
+    const refresh = () => {
+      window.location.reload(false)
+    } 
     
     function onSubmit(e) {
         e.preventDefault()
@@ -25,22 +31,26 @@ function SignUpForm({ updateUser }){
             password
         }
 
-        fetch (`/users`, {
+        fetch (`/users/new`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(user)
         })
-        .then(res => res.json())
-        .then(user => {
-            setFormData(user)
-            updateUser(user)
-            history.push(`/books`)
+        .then(res => {
+          if(res.ok){
+            res.json().then(user => {
+              updateUser(user)
+            })
+          } else {
+            res.json().then(json => setErrors(Object.entries(json.errors)))
+          }
         })
         setFormData({
             username: "",
             email: "",
             password: ""
         })
+        history.push(`/home`)
     }
         
     const handleChange = (e) => {

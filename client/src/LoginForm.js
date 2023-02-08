@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import { useHistory } from 'react-router-dom'
 
-function LoginForm({ updateUser }) {
+function LoginForm({ setCurrentUser }) {
     const [formData, setFormData] = useState({
         username:'',
         password:''
@@ -29,13 +29,13 @@ function LoginForm({ updateUser }) {
         })
         .then(res => res.json())
         .then(user => {
-            setFormData(user)
-            updateUser(user)
-            console.log(user)
+            history.push(`/home`)
+            setCurrentUser(user)
             if (user.errors) {
                 history.push('/login')
             } else {
-                history.push('/books')
+                // setCurrentUser(user)
+                history.push('/home')
             }
         setFormData({
             username: "",

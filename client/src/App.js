@@ -36,6 +36,7 @@ function App() {
     fetchUsers()
   },[])
 
+  console.log(currentUser)
 
   const fetchBooks = () => {
     fetch('/books')
@@ -70,10 +71,14 @@ function App() {
     }
 
     const handleLogOut = () => {
-      setCurrentUser(null)
+      setCurrentUser('')
+      history.push(`/login`)
     }
 
-    const updateUser = (user) => setCurrentUser(user)
+    const updateUser = (user) => {
+      setCurrentUser(user)
+      setUsers([...users, user])
+    }
 
     const editReview = (review) => {
       setReviews(current => {
@@ -92,6 +97,9 @@ function App() {
       setReviews(current => [...reviews, review])
     }
 
+    const addBook = (book) => {
+      setBooks(current => [...books, book])
+    }
 
 
   return (
@@ -114,7 +122,7 @@ function App() {
           </Route>
 
           <Route exact path="/books/new">
-            <BookForm />
+            <BookForm addBook={addBook}/>
           </Route>
 
           <Route exact path="/books/:book_id/reviews/:review_id/update">
@@ -134,7 +142,7 @@ function App() {
           </Route> */}
 
           <Route exact path="/login">
-            <LoginForm updateUser={updateUser}/>
+            <LoginForm setCurrentUser={setCurrentUser}/>
           </Route>
 
           <Route path="/">

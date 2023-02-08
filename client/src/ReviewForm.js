@@ -38,6 +38,7 @@ function ReviewForm({ currentUser, books, addReview }) {
         })
         .then(res => res.json())
         .then(review => {
+            history.push(`/books/${book_id}/reviews`)
             addReview(review) 
         })
         setFormData({
@@ -46,7 +47,7 @@ function ReviewForm({ currentUser, books, addReview }) {
             book_id: params.book_id,
             user_id: currentUser.id
         })
-        history.push(`/books/${book_id}/reviews`)
+
     }
 
     const handleChange = (e) => {
@@ -56,7 +57,7 @@ function ReviewForm({ currentUser, books, addReview }) {
 
     return (
         <div>
-            <Container>
+            {currentUser ? <Container>
                 {books.filter(book => 
                     (book.id == params.book_id)).map (b => (
                         <h3 >Write your review for {b.title}</h3>
@@ -105,7 +106,8 @@ function ReviewForm({ currentUser, books, addReview }) {
 
                 </Form>
 
-            </Container>
+            </Container> : <Container><h2>Want to write a review? <br></br><a href="/users/new">Sign Up!</a></h2></Container>
+                    }
         </div>
     )
 }
