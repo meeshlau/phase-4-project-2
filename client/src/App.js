@@ -137,10 +137,6 @@ function App() {
             <ReviewList books={books} users={users} currentUser={currentUser} setDeletedReviewId={setDeletedReviewId} reviews={reviews} setReviews={setReviews}/>
           </Route>
 
-          {/* <Route exact path="/books/:book_id/reviews/:review_id/delete">
-            <DeleteReview reviews={reviews} deletedReviewId={deletedReviewId} setDeletedReviewId={setDeletedReviewId} handleDeleteReview={handleDeleteReview}/>
-          </Route> */}
-
           <Route exact path="/login">
             <LoginForm setCurrentUser={setCurrentUser}/>
           </Route>

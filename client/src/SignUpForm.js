@@ -19,9 +19,6 @@ function SignUpForm({ updateUser }){
 
     const {username, email, password} = formData
 
-    const refresh = () => {
-      window.location.reload(false)
-    } 
     
     function onSubmit(e) {
         e.preventDefault()
@@ -39,10 +36,12 @@ function SignUpForm({ updateUser }){
         .then(res => {
           if(res.ok){
             res.json().then(user => {
+              history.push('/home')
               updateUser(user)
             })
           } else {
-            res.json().then(json => setErrors(Object.entries(json.errors)))
+            res.json().then(json => setErrors(json.errors))
+            alert('The user already exists!')
           }
         })
         setFormData({
@@ -50,7 +49,7 @@ function SignUpForm({ updateUser }){
             email: "",
             password: ""
         })
-        history.push(`/home`)
+
     }
         
     const handleChange = (e) => {

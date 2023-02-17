@@ -29,13 +29,15 @@ function LoginForm({ setCurrentUser }) {
         })
         .then(res => res.json())
         .then(user => {
-            history.push(`/home`)
-            setCurrentUser(user)
+            // history.push(`/home`)
+            // setCurrentUser(user)
             if (user.errors) {
+                alert('Incorrect username and password combination. Please try again.')
                 history.push('/login')
             } else {
-                // setCurrentUser(user)
                 history.push('/home')
+                setCurrentUser(user)
+
             }
         setFormData({
             username: "",
