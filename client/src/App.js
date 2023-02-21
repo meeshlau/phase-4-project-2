@@ -70,6 +70,11 @@ function App() {
       })
     }
 
+    const handleLogin = (user) => {
+      setCurrentUser(user)
+      
+    }
+
     const handleLogOut = () => {
       setCurrentUser('')
       history.push(`/login`)
@@ -138,11 +143,11 @@ function App() {
           </Route>
 
           <Route exact path="/login">
-            <LoginForm setCurrentUser={setCurrentUser}/>
+            <LoginForm setCurrentUser={setCurrentUser} handleLogin={handleLogin}/>
           </Route>
 
-          <Route path="/">
-            <Home books={books} users={users} currentUser={currentUser} setDeletedReviewId={setDeletedReviewId}/>
+          <Route path="/home">
+            <Home books={books}/>
           </Route>
 
 

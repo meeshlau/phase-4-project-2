@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import { useHistory } from 'react-router-dom'
 
-function LoginForm({ setCurrentUser }) {
+function LoginForm({ setCurrentUser, handleLogin }) {
     const [formData, setFormData] = useState({
         username:'',
         password:''
@@ -35,8 +35,10 @@ function LoginForm({ setCurrentUser }) {
                 alert('Incorrect username and password combination. Please try again.')
                 history.push('/login')
             } else {
+                handleLogin(user)
                 history.push('/home')
-                setCurrentUser(user)
+                // setCurrentUser(user)
+
 
             }
         setFormData({
